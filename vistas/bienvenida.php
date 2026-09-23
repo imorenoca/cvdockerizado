@@ -1,6 +1,4 @@
-<?php require_once __DIR__."/modulos/header.php";
-?>
-
+<?php require_once __DIR__."/modulos/header.php";?>
 
 <body>
 
@@ -31,9 +29,9 @@
         <div class="row mt-4">
             <div class="col-md-6 offset-md-3 text-center">
                 <!-- Botón para ir a la página de login -->
-                <a href="vistas/login.php" class="btn btn-success btn-lg btn-block">Login</a>
+                <a href="/login" class="btn btn-success btn-lg btn-block">Login</a>
                 <!-- Botón para ir a la página de registro -->
-                <a href="vistas/register.php" class="btn btn-primary btn-lg btn-block">Registro</a>
+                <a href="register" class="btn btn-primary btn-lg btn-block">Registro</a>
             </div>
         </div>
     </div>
