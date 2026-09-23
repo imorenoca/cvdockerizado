@@ -1,18 +1,15 @@
 # cvWeb
 Proyecto DAW.
 
-Este es mi Proyecto DAW para el Ciclo Formativo de Grado Superior de Desarrollo de Aplicaciones Web.
+Actualización del Proyecto de Ciclo Formativo de Grado Superior de Desarrollo de Aplicaciones Web.
 
 **Aplicación web para la gestión del seguimiento de envío de currículos a ofertas de empleo y/o prácticas en empresa.**
 
-**Tiempo de realización:** 20/10/2023 a 05/12/2023
-
-**Métodología utilizada:** Cascada e Iterativa Incremental.
-
 **Necesidades y finalidad.**
+
 La realización de este proyecto parte de la necesidad de tener en un mismo lugar registradas todas las ofertas de trabajo a las que hemos aplicado por distintos medios, con la finalidad de tenerlas centralizadas para poder ser consultadas.
 
-**Tecnologías y herramientas utilizadas:**
+**Tecnologías y herramientas utilizadas en el proyecto original:**
 
 **Front-end:**
 
@@ -32,57 +29,16 @@ La realización de este proyecto parte de la necesidad de tener en un mismo luga
 **Entorno de Desarrollo Integrado (IDE):**
 Visual Studio Code: editor utilizado para la codificación de HTML, CSS, JavaScript y php. Permite la utilización de plugins que facilitan la labor de programación y total integración con Git.
 
-**Requisitos Funcionales**
+**Revisión del proyecto:**
 
-Los Requisitos Funcionales son los siguientes, agrupados por Casos de Uso
-1.	Usuario no registrado puede hacer Registro, pueden registrarse como rol usuario si el usuario no existe y es válido.
-2.	Usuario registrado puede iniciar sesión y cerrar sesión. Dos tipos de usuarios registrados por rol: administrador y usuario.
-3.	 Rol administrador:  
- a.	Listar usuarios registrados por nombre y correo.  
-4.	Rol usuario registrado Ofertas.   
- a.	Ver su listado de ofertas específico.   
- b.	Modificar sus ofertas.   
- c.	Eliminar sus ofertas.   
- d.	Añadir ofertas  
- e.	Filtrar ofertas por estado abierto, cerrado, guardado.   
-5.	Rol usuario registrado Envíos  
- a.	Ver listado tipos de envío.  
- b.	Modificar tipo de envíos.  
- c.	Eliminar tipos de envíos si no está relacionado con ofertas.  
- d.	Añadir tipos de envío.  
-6.	Rol usuario registrado listado de empresas.  
- a.	Ver listado de empresas.   
- b.	Modificar empresas.   
- c.	Eliminar empresas si no están relacionadas con las ofertas.  
- d.	Añadir empresas.   
-7.	Rol usuario registrado Contactos:  
- a.	Ver listado  
- b.	Modificar Contactos.  
- c.	Añadir contactos.  
- d.	Eliminar contactos.  
+- Cambio de XAMPP a Docker.
+- Actualización a php 8.3 y MariaDB 11.8
+- Se revisan requisitos funcionales y no funcionales.
+- Se revisan casos de uso (Casos de uso.png en la raíz del proyecto)
+- Se revisan clases (Clases.png en la raíz del proyecto)
 
-**Requisitos no funcionales:**
-
-1.	La aplicación deberá manejar y mostrar mensajes de error. 
-2.	El diseño general de la aplicación debe ser homogéneo.
-3.	La aplicación no mostrará ninguna publicidad.
-4.	Los botones y menús utilizados en la aplicación deben ser legibles.
-5.	La aplicación debe implementar medidas de seguridad, autentificación de usuarios y administradores para acceder con seguridad a los datos.
-6.	Interfaz de usuario intuitiva y fácil de usar.
-7.	Código fácil de mantener. 
-8.	La aplicación será compatible con los navegadores Google Chrome, Microsoft Edge y Firefox. 
-9.	La aplicación empleará CSS flexbox, para la creación de un diseño responsive.
-
-**Pasos seguidos en el desarrollo del proyecto:** 
-
-* Implementación de la base de datos diseñada.
-* Realización del apartado de ofertas: listarlas, agregarlas, modificarlas y eliminarlas.
-* Añadir Login y Registro a la aplicación.
-* Desarrollo del Rol de administrador.
-* Apartado de empresas: listarlas, agregarlas, modificarlas y eliminarlas.
-* Apartado de envíos: listarlos, agregarlos, modificarlos y eliminarlos.
-* Apartado de contactos: listarlos, agregarlos, modificarlos y eliminarlos.
-* Revisión de menús, operatividad conjunta y funcionalidad general.
-
+**Estado actual**
+- Se está realizando el enrutamiento de la app: página 404 y manejo de direcciones en .htaccess
+- Para más detalles del proyecto puede verse "documentacion.md"
  
 
