@@ -1,5 +1,4 @@
-<?php require_once "vistas/modulos/header.php";
-require_once "vistas/modulos/menu.php";
+<?php require_once __DIR__."/modulos/header.php";
 ?>
 
 
@@ -42,7 +41,7 @@ require_once "vistas/modulos/menu.php";
 
     <br>
     <br><br><br><br><br><br>
-    <?php require_once "vistas/modulos/footer.php"; ?>
+    <?php require_once __DIR__."/modulos/footer.php"; ?>
 </body>
 
 </html>
