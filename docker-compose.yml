@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: cv0-app
+    container_name: cvdockerizado-app
     ports:
       - "8080:80"
     volumes:
@@ -19,7 +19,7 @@ services:
 
   db:
     image: mariadb:11.8
-    container_name: cv0-db
+    container_name: cvdockerizado-db
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       # No se define MYSQL_DATABASE: el propio dump bd/cv.sql hace su CREATE DATABASE cv,
@@ -40,7 +40,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin:5
-    container_name: cv0-phpmyadmin
+    container_name: cvdockerizado-phpmyadmin
     environment:
       PMA_HOST: db
       PMA_USER: root
