@@ -1,9 +1,7 @@
 <?php
-
-
-require_once '../config/conexiondb.php';
-require_once '../config/variablesentorno.php';
-require_once '../modelos/usuariomodelo.php';
+require_once __DIR__ . '/../config/conexiondb.php';
+require_once __DIR__ . '/../config/variablesentorno.php';
+require_once __DIR__ . '/../modelos/usuariomodelo.php';
 
 
 if (!empty($_POST["btningresar"])) {

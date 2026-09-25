@@ -1,6 +1,6 @@
 <?php
-require_once '../config/variablesentorno.php';
-require_once '../config/conexiondb.php';
+require_once __DIR__ . '/../config/variablesentorno.php';
+require_once __DIR__ . '/../config/conexiondb.php';
 
 class UsuarioModelo {
     private $mysqli;
@@ -21,27 +21,24 @@ class UsuarioModelo {
     public function verificarUsuario($usuario, $password) {
 
         try {
-            $sql = "SELECT * FROM usuario WHERE usuario = ? AND password = SHA1(?)";
+            $sql = "SELECT * FROM usuario WHERE usuario = ?";
             $stmt = $this->mysqli->prepare($sql);
 
             // Verificar si la preparación fue exitosa
             if ($stmt) {
-                $stmt->bind_param("ss", $usuario, $password);
+                $stmt->bind_param("s", $usuario);
                 $stmt->execute();
 
                 $resultado = $stmt->get_result()->fetch_assoc();
 
-                if ($resultado) {
+                if ($resultado && password_verify($password, $resultado['password'])) {
                     return $resultado; // Devuelve toda la información del usuario
                 }
             }
+            return false; // Usuario o contraseña incorrectos
         } catch (Exception $e) {
             // Manejo de excepciones
-
-
             return false; // Usuario o contraseña incorrectos
-
-
         } finally {
             // Cerrar el statement después de usarlo
             $stmt->close();
@@ -50,8 +47,8 @@ class UsuarioModelo {
 
 
     public function registrarUsuario($nombre, $correo, $contrasena) {
-        // Hashear la contraseña con SHA1
-        $contrasenaHasheada = sha1($contrasena);
+        // Hashear la contraseña con password_hash (bcrypt por defecto), con salt automático e incorporado en el propio hash
+        $contrasenaHasheada = password_hash($contrasena, PASSWORD_DEFAULT);
 
         // Establecer el valor predeterminado del rol (2 en este caso)
         $defaultRol = 2;
@@ -70,7 +67,10 @@ class UsuarioModelo {
                 return "Error al registrar el usuario";
             }
         }
+        return "Error al preparar la consulta SQL";
     }
+
+        
     public function verificarUsuarioExistente($usuario, $email) {
         try {
             $sql = "SELECT * FROM usuario WHERE usuario = ? OR correo = ?";
