@@ -6,9 +6,9 @@ require_once __DIR__ . '/nucleo/Router.php';
 $enrutador = new Router();
 $enrutador->agregarRuta('GET', '/', __DIR__ . '/vistas/bienvenida.php');
 $enrutador->agregarRuta('GET', '/login', __DIR__ . '/vistas/login.php');
-$enrutador->agregarRuta('POST', '/login', __DIR__ . '/controladores/loginController.php');
+$enrutador->agregarRuta('POST', '/login', __DIR__ . '/controladores/controlador_login.php');
 $enrutador->agregarRuta('GET', '/register', __DIR__ . '/vistas/register.php');
-$enrutador->agregarRuta('POST', '/register', __DIR__ . '/controladores/registerController.php');
+$enrutador->agregarRuta('POST', '/register', __DIR__ . '/controladores/controlador_register.php');
 
 
 $ruta_solicitada = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

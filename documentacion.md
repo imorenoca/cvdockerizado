@@ -275,3 +275,5 @@ Crear el composer.json
 docker compose exec app composer init --no-interaction --name=imorenoca/cvdockerizado
 
 docker compose exec app composer require --dev phpunit/phpunit
+
+- Configuración clase Router.php

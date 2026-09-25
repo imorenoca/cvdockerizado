@@ -6,6 +6,7 @@
     <form method="POST" action="">
 
     <h1 class="h3 mt-5 fw-normal text-center">Registro</h1>
+    <!--revisar si el include funciona correctamente-->
   <?php include "/modulos/register" ?>
         <div class="form-floating">
             <input name="usuario" type="text" class="form-control mb-3" id="floatingInput" placeholder="user.name">
