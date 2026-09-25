@@ -1,9 +1,6 @@
 <?php
 require_once '../config/variablesentorno.php';
 require_once '../config/conexiondb.php';
-require_once '../controladores/controlador_login.php';
-
-
 
 class UsuarioModelo {
     private $mysqli;

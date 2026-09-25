@@ -1,7 +1,7 @@
 <?php
-require_once '../config/conexiondb.php';
-require_once '../config/variablesentorno.php';
-require_once '../modelos/usuariomodelo.php';
+require_once __DIR__ . '/../config/conexiondb.php';
+require_once __DIR__ . '/../config/variablesentorno.php';
+require_once __DIR__ . '/../modelos/usuariomodelo.php';
 
 
 if (!empty($_POST["btnregistro"])) {
@@ -25,9 +25,8 @@ if (!empty($_POST["btnregistro"])) {
             // Manejo de la respuesta del modelo (mensaje de éxito o error)
             if ($mensaje === "Usuario registrado exitosamente") {
                 // Mensaje de éxito con Bootstrap
-                echo '<div class="alert alert-success text-center" role="alert">
-                          Usuario registrado exitosamente.
-                      </div>';
+                header("Location: /login");
+                exit();              
             } else {
                 // Mensaje de error con Bootstrap
                 echo '<div class="alert alert-danger text-center" role="alert">
