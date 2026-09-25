@@ -12,35 +12,36 @@ if (!empty($_POST["btningresar"])) {
         $usuarioRegistrado = $usuarioModel->verificarUsuario($usuario, $password);
 
         if ($usuarioRegistrado) {
+            // Regenerar id de sesión para prevenir ataques de fijación de sesión
+            session_regenerate_id(true);
             // redirección según el rol
             $_SESSION['id_rol'] = $usuarioRegistrado['id_rol'];
             $_SESSION['id_usuario']= $usuarioRegistrado['id_usuario'];
 
             switch ($_SESSION['id_rol'] ) {
                 case 2:
-                    header("Location: ../vistas/ofertas.php");
+                    header("Location: /ofertas");
                     exit();
                 case 1:
-                    header("Location: ../vistas/administrador.php");
+                    header("Location: administrador");
                     exit();
-                // ampliar para un futuro
+                
 
                 default:
-                    header("Location: ../vistas/login.php");
+                    header("Location: /login");
                     exit();
             }
         } else {
             // La verificación del usuario no fue exitosa, mostrar mensaje de error
-            echo '<div class="alert alert-danger text-center" role="alert">
-            Nombre de usuario y/o contraseña incorrecto
-        </div>';
-        }
+            $_SESSION['error_login'] = 'Nombre de usuario o contraseña incorrectos.';
+            header("Location: /login");
+            exit();}
     } else {
         // Mensaje de error si los campos están vacíos
     
-        echo '<div class="alert alert-danger text-center" role="alert">
-        Por favor, ingrese nombre de usuario y contraseña.
-    </div>';
+        $_SESSION['error_login'] = 'Por favor, complete todos los campos.';
+        header("Location: /login");
+        exit();
     }
 }
     
@@ -49,5 +50,6 @@ if (!empty($_POST["btningresar"])) {
 
 
 
+   
 
 

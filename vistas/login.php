@@ -5,6 +5,10 @@
     <form method="POST" action="">
 
         <h1 class="h3 mt-5 fw-normal text-center">Login</h1>
+        <?php
+        echo htmlspecialchars($_SESSION['error_login']);
+        unset($_SESSION['error_login']); // Limpiar el mensaje de error después de mostrarlo
+        ?>
         <div class="form-floating">
             <input name="usuario" type="text" class="form-control mb-3" id="floatingInput" placeholder="user.name">
             <label for="floatingInput">Usuario</label>
