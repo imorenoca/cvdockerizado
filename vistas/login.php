@@ -6,7 +6,7 @@
 
         <h1 class="h3 mt-5 fw-normal text-center">Login</h1>
         <?php
-        echo htmlspecialchars($_SESSION['error_login']);
+        echo isset($_SESSION['error_login']) ? '<div class="alert alert-danger text-center" role="alert">' . $_SESSION['error_login'] . '</div>' : '';
         unset($_SESSION['error_login']); // Limpiar el mensaje de error después de mostrarlo
         ?>
         <div class="form-floating">
