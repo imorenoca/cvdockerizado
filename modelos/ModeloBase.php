@@ -1,11 +1,11 @@
 <?php
 
 abstract class ModeloBase {
-    protected $pdo;
+    protected PDO $pdo;
 
-    public function __construct() {
-        $conexionDb = new ConexionDb();
-        $this->pdo = $conexionDb->getPdo();
+    public function __construct(PDO $pdo) {
+       
+        $this->pdo = $pdo;
     }
     
 }

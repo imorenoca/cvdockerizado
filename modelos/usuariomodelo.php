@@ -3,8 +3,8 @@ require_once __DIR__ . '/ModeloBase.php';
 
 class UsuarioModelo extends ModeloBase {
 
-
-    public function autenticar($usuario, $password) {
+// verificarUsuario es autenticar
+    public function verificarUsuario($usuario, $password) {
 
         try {
             $sql = "SELECT * FROM usuario WHERE usuario = ?";

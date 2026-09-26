@@ -31,7 +31,7 @@
                 <!-- Botón para ir a la página de login -->
                 <a href="/login" class="btn btn-success btn-lg btn-block">Login</a>
                 <!-- Botón para ir a la página de registro -->
-                <a href="register" class="btn btn-primary btn-lg btn-block">Registro</a>
+                <a href="/register" class="btn btn-primary btn-lg btn-block">Registro</a>
             </div>
         </div>
     </div>

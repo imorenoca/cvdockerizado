@@ -1,6 +1,6 @@
 <?php
 // UsuarioController.php
-require_once '../modelos/usuariomodelo.php';
+require_once __DIR__ . '/../modelos/usuariomodelo.php';
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
        $usuarioController->iniciarSesion($usuario, $contrasena);
        $usuario = $_POST["usuario"] ?? '';
@@ -26,7 +26,7 @@ class UsuarioController
         }
 
         // Lógica de inicio de sesión
-        $usuarioRegistrado = $this->usuarioModelo->autenticar($usuario, $contrasena);
+        $usuarioRegistrado = $this->usuarioModelo->verificarUsuario($usuario, $contrasena);
 
         if ($usuarioRegistrado) {
             if(session_status() === PHP_SESSION_NONE) {

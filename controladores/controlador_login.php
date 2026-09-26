@@ -23,7 +23,7 @@ if (!empty($_POST["btningresar"])) {
                     header("Location: /ofertas");
                     exit();
                 case 1:
-                    header("Location: administrador");
+                    header("Location: /administrador");
                     exit();
                 
 
