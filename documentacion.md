@@ -276,4 +276,44 @@ docker compose exec app composer init --no-interaction --name=imorenoca/cvdocker
 
 docker compose exec app composer require --dev phpunit/phpunit
 
+- Revisión de la Base de datos:
+
+*estado* (columna con ENUM) → tabla estado_oferta
+Antes: estado ENUM('abierto','cerrado','guardado') NOT NULL DEFAULT 'abierto' dentro de oferta. 
+Ahora: tabla independiente con id_estado como PK, y oferta.id_estado como FK con el mismo valor por defecto (1 = abierto) preservado.
+*tipo_trabajo* (columna con ENUM) → tabla tipo_trabajo
+*ingles* (ENUM 'si'/'no') → requiere_ingles TINYINT(1)
+En esta versión de MariaDB actualizada se pueden usar booleanos, 
+de manera interna funciona como TINYINT(1)
+0 ES FALSO
+1 ES VERDADERO.
+
+*id_empresa*: DEFAULT NULL → NOT NULL, con ON DELETE RESTRICT
+Esto cierra el bug de diseño original evita que se pueda borrar una empresa mientras tenga ofertas asociadas sin decidirlo explícitamente antes.
+
+*id_envio*: DEFAULT NULL → NOT NULL, con ON DELETE RESTRICT
+La oferta debe tener un envío asociado, no es opcional.
+
+*id_contacto*: se mantiene opcional, pero ahora con ON DELETE SET NULL explícito
+Permite borrar un contacto asignado.
+
+Las tablas contacto, empresa, envio, oferta y usuario empiezan vacías; solo los catálogos (rol, estado_oferta, tipo_trabajo) llevan datos semilla, necesarios para que la app funcione.
+
+- Se asocia oferta a usuario. En el futuro tener en cuenta:
+
+**La solución no es de esquema, es de aplicación: cuando se construya el controlador que crea/edita una oferta, antes de guardar, se tiene que comprobar:
+
+- Empresa con este id_empresa pertenece al usuario de la sesión actual.
+- id_contacto pertenece al usuario de la sesión actual?
+
+Y lo mismo en sentido inverso, para los desplegables del formulario:
+-  "elige una empresa" al crear una oferta, esa lista debe estar filtrada por WHERE id_usuario = ? — así el usuario ni siquiera ve empresas ajenas para poder elegirlas por error, y la comprobación de guardado es la última línea de defensa por si alguien se salta el formulario y manda la petición a mano.**
+
+id_empresa/id_contacto en una oferta pertenezcan al mismo usuario tiene que hacerse en el controlador, no la puede garantizar la base de datos por sí sola
+
+
 - Configuración clase Router.php
+
+Se empiezan a enroutar la app.
+- Se aplica a Registro y Login
+- Se arregla Menú para que redirija bien.
