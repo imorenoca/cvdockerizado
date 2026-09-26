@@ -1,28 +1,17 @@
 <?php
-require_once __DIR__ . '/../config/variablesentorno.php';
 require_once __DIR__ . '/../config/conexiondb.php';
+require_once __DIR__ . '/modelobase.php';
 
-class UsuarioModelo {
-    private $mysqli;
+class UsuarioModelo extends ModeloBase {
 
-    public function __construct() {
-
-        // Crear una instancia de la clase de conexión a la base de datos
-        $conexionDb = new ConexionDb();
-        // Obtener la instancia de mysqli desde la clase de conexión
-        $this->mysqli = $conexionDb->getMysqli();
-        // Verificar si hay errores en la conexión
-        if ($this->mysqli->connect_errno) {
-            echo "Error de conexión: " . $this->mysqli->connect_errno;
-            exit;
-        }
-    }
 
     public function verificarUsuario($usuario, $password) {
 
         try {
             $sql = "SELECT * FROM usuario WHERE usuario = ?";
-            $stmt = $this->mysqli->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$usuario]);
+            $resultado = $stmt->fetch();
 
             // Verificar si la preparación fue exitosa
             if ($stmt) {
@@ -36,13 +25,11 @@ class UsuarioModelo {
                 }
             }
             return false; // Usuario o contraseña incorrectos
-        } catch (Exception $e) {
-            // Manejo de excepciones
+        } catch (PDOException $e) {
+            // Manejo de excepciones -
+            echo "Error en la consulta: " . $e->getMessage();
             return false; // Usuario o contraseña incorrectos
-        } finally {
-            // Cerrar el statement después de usarlo
-            $stmt->close();
-        }
+        } 
     }
 
 
@@ -53,49 +40,33 @@ class UsuarioModelo {
         // Establecer el valor predeterminado del rol (2 en este caso)
         $defaultRol = 2;
 
-        $sql = "INSERT INTO usuario (usuario, correo, password, id_rol) VALUES (?, ?, ?, ?)";
-        $stmt = $this->mysqli->prepare($sql);
+        try {
+            $sql = "INSERT INTO usuario (usuario, correo, password, id_rol) VALUES (?, ?, ?, ?)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$nombre, $correo, $contrasenaHasheada, $defaultRol]);
 
-        // Verificar si la preparación fue exitosa
-        if ($stmt) {
-            $stmt->bind_param("sssi", $nombre, $correo, $contrasenaHasheada, $defaultRol);
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
+            if ($stmt->rowCount() > 0) {
                 return "Usuario registrado exitosamente";
             } else {
                 return "Error al registrar el usuario";
             }
+        } catch (PDOException $e) {
+            // Manejo de excepciones
+            error_log("Error al registrar usuario: " . $e->getMessage());
+            return false; 
         }
-        return "Error al preparar la consulta SQL";
     }
-
         
     public function verificarUsuarioExistente($usuario, $email) {
         try {
             $sql = "SELECT * FROM usuario WHERE usuario = ? OR correo = ?";
-            $stmt = $this->mysqli->prepare($sql);
-
-            // Verificar si la preparación fue exitosa
-            if ($stmt) {
-                $stmt->bind_param("ss", $usuario, $email);
-                $stmt->execute();
-
-                $resultado = $stmt->get_result()->fetch_assoc();
-
-                if ($resultado) {
-                    return true; // El usuario existe
-                }
-            }
-        } catch (Exception $e) {
-            // Manejo de excepciones
-            return false; // Error al verificar el usuario
-        } finally {
-            // Cerrar el statement después de usarlo
-            $stmt->close();
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$usuario, $email]);
+            return $stmt->fetch() !== false; // Devuelve true si el usuario existe, false si no
+        } catch (PDOException $e) {
+            error_log("Error al verificar usuario existente: " . $e->getMessage());
+            return false;
         }
-
-        return false; // El usuario no existe
     }
-
+  
 }

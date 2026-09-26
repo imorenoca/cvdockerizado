@@ -311,6 +311,29 @@ Y lo mismo en sentido inverso, para los desplegables del formulario:
 
 id_empresa/id_contacto en una oferta pertenezcan al mismo usuario tiene que hacerse en el controlador, no la puede garantizar la base de datos por sí sola
 
+---------
+Se plantea funcionamiento de Rol Administrador.-> A Futuro.
+
+1. Manejo de administradores: superadmin, admmins.
+2. Manejo del alta de superadmins (semilla)
+3. Como se añadirán resto de admins/roles
+4. Protección del panel de administración.
+--
+5. Cambio a PDO - 
+- Portabilidad.
+- Automatiza Excpeciones.
+- No hace falta declarar parámetros.
+- PDO gestiona el Statement automáticamente.
+
+
+Cambiar a PDO (?)
+5. Manejo de sesiones, roles y cookies.
+    - Evitar ataques de fijación en las sesiones.
+6. Evitar el robo de sesión, rol y/cookie
+7. Revirificar las peticiones críticas a la base de datos.
+8. Separar el back del front.
+
+
 
 - Configuración clase Router.php
 
