@@ -2,38 +2,36 @@
 // UsuarioController.php
 require_once '../modelos/usuariomodelo.php';
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $conexionDb = new ConexionDb(); // Asegúrate de tener la clase ConexionDb disponible
-    $usuarioController = new UsuarioController($conexionDb);
-
-    $usuario = $_POST["username"];
-    $contrasena = $_POST["password"];
-
-    $usuarioController->iniciarSesion($usuario, $contrasena);
+       $usuarioController->iniciarSesion($usuario, $contrasena);
+       $usuario = $_POST["usuario"] ?? '';
+       $contrasena = $_POST["contrasena"] ?? '';
+       $usuarioController->iniciarSesion($usuario, $contrasena);
 }
 
 class UsuarioController
 {
-    private $conexionDb;
+    private $usuarioModelo;
 
-    public function __construct($conexionDb)
+    public function __construct()
     {
-        $this->conexionDb = $conexionDb;
+        $this->usuarioModelo = new UsuarioModelo();
     }
 
     public function iniciarSesion($usuario, $contrasena)
     {
         // Validar datos (puedes agregar más validaciones según sea necesario)
         if (empty($usuario) || empty($contrasena)) {
-            header("Location: ../vistas/login.php?error=1");
+            header("Location: ../login.php?error=1");
             exit();
         }
 
         // Lógica de inicio de sesión
-        $usuarioModel = new UsuarioModelo();
-        $usuarioRegistrado = $usuarioModel->verificarUsuario($usuario, $contrasena);
+        $usuarioRegistrado = $this->usuarioModelo->autenticar($usuario, $contrasena);
 
         if ($usuarioRegistrado) {
-            session_start();
+            if(session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             $_SESSION["usu"] = $usuarioRegistrado['correo'];
             $_SESSION["idRol"] = $usuarioRegistrado['rol_id'];
 
@@ -41,7 +39,7 @@ class UsuarioController
             $this->redirigirSegunRol($usuarioRegistrado['rol_id']);
         } else {
             // La validación de inicio de sesión falló, redirige a la página de login con un mensaje de error
-            header("Location: ../vistas/login.php?error=2");
+            header("Location: ../login.php?error=2");
             exit();
         }
     }
@@ -50,13 +48,13 @@ class UsuarioController
     {
         switch ($rolId) {
             case 1:
-                header("Location: ../vistas/administrador.php");
+                header("Location: ../administrador");
                 exit();
             case 2:
-                header("Location: ../vistas/usuario.php");
+                header("Location: ../usuario");
                 exit();
             default:
-                header("Location: ../vistas/login.php");
+                header("Location: ../login");
                 exit();
         }
     }

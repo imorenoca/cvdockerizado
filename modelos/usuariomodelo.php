@@ -1,11 +1,10 @@
 <?php
-require_once __DIR__ . '/../config/conexiondb.php';
-require_once __DIR__ . '/modelobase.php';
+require_once __DIR__ . '/ModeloBase.php';
 
 class UsuarioModelo extends ModeloBase {
 
 
-    public function verificarUsuario($usuario, $password) {
+    public function autenticar($usuario, $password) {
 
         try {
             $sql = "SELECT * FROM usuario WHERE usuario = ?";
@@ -13,25 +12,28 @@ class UsuarioModelo extends ModeloBase {
             $stmt->execute([$usuario]);
             $resultado = $stmt->fetch();
 
-            // Verificar si la preparación fue exitosa
-            if ($stmt) {
-                $stmt->bind_param("s", $usuario);
-                $stmt->execute();
-
-                $resultado = $stmt->get_result()->fetch_assoc();
-
-                if ($resultado && password_verify($password, $resultado['password'])) {
+            if ($resultado && password_verify($password, $resultado['password'])) {
                     return $resultado; // Devuelve toda la información del usuario
                 }
-            }
+            
             return false; // Usuario o contraseña incorrectos
         } catch (PDOException $e) {
             // Manejo de excepciones -
-            echo "Error en la consulta: " . $e->getMessage();
+            error_log("Error en autenticar: " . $e->getMessage());
             return false; // Usuario o contraseña incorrectos
         } 
     }
-
+    public function verificarUsuarioExistente($usuario, $email) {
+        try {
+            $sql = "SELECT * FROM usuario WHERE usuario = ? OR correo = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$usuario, $email]);
+            return $stmt->fetch() !== false; // Devuelve true si el usuario existe, false si no
+        } catch (PDOException $e) {
+            error_log("Error al verificar usuario existente: " . $e->getMessage());
+            return false;
+        }
+    }
 
     public function registrarUsuario($nombre, $correo, $contrasena) {
         // Hashear la contraseña con password_hash (bcrypt por defecto), con salt automático e incorporado en el propio hash
@@ -44,12 +46,13 @@ class UsuarioModelo extends ModeloBase {
             $sql = "INSERT INTO usuario (usuario, correo, password, id_rol) VALUES (?, ?, ?, ?)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$nombre, $correo, $contrasenaHasheada, $defaultRol]);
+            return $stmt->rowCount() > 0 ? "Usuario registrado exitosamente" : "Error al registrar el usuario";
 
-            if ($stmt->rowCount() > 0) {
+            /*if ($stmt->rowCount() > 0) {
                 return "Usuario registrado exitosamente";
             } else {
                 return "Error al registrar el usuario";
-            }
+            }*/
         } catch (PDOException $e) {
             // Manejo de excepciones
             error_log("Error al registrar usuario: " . $e->getMessage());
@@ -57,16 +60,6 @@ class UsuarioModelo extends ModeloBase {
         }
     }
         
-    public function verificarUsuarioExistente($usuario, $email) {
-        try {
-            $sql = "SELECT * FROM usuario WHERE usuario = ? OR correo = ?";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$usuario, $email]);
-            return $stmt->fetch() !== false; // Devuelve true si el usuario existe, false si no
-        } catch (PDOException $e) {
-            error_log("Error al verificar usuario existente: " . $e->getMessage());
-            return false;
-        }
-    }
+
   
 }
