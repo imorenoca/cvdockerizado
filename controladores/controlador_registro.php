@@ -10,7 +10,7 @@ if (!empty($_POST["btnregistro"])) {
         $password = $_POST["password"];
         $email = $_POST["email"];
 
-        $usuarioModel = new UsuarioModelo();
+        $usuarioModel = new UsuarioModelo($pdo);
         $usuarioExistente = $usuarioModel->verificarUsuarioExistente($usuario, $email);
 
         if ($usuarioExistente) {

@@ -12,9 +12,9 @@ class UsuarioController
 {
     private $usuarioModelo;
 
-    public function __construct()
+    public function __construct($pdo)
     {
-        $this->usuarioModelo = new UsuarioModelo();
+        $this->usuarioModelo = new UsuarioModelo($pdo);
     }
 
     public function iniciarSesion($usuario, $contrasena)

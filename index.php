@@ -1,7 +1,11 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/config/conexiondb.php';
 require_once __DIR__ . '/nucleo/Router.php';
+
+$conexion = new ConexionDB();
+$pdo = $conexionDb->getPDO();
 
 $enrutador = new Router();
 $enrutador->agregarRuta('GET', '/', __DIR__ . '/vistas/bienvenida.php');
